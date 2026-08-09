@@ -2,6 +2,11 @@
 
 Public website for Winsome Model Schools, built with React, TypeScript and Vite.
 
+## School email addresses
+
+- General enquiries: `info@winsomemodelschools.com`
+- Admissions: `admissions@winsomemodelschools.com`
+
 ## Local development
 
 ```bash
@@ -23,15 +28,13 @@ Upload the **contents** of `dist/` to the site's cPanel document root. Vite copi
 
 ### Admissions email configuration
 
-The admissions endpoint intentionally has no hard-coded recipient address. Configure the server environment variable `WMS_ADMISSIONS_EMAIL` to the mailbox that should receive enquiries.
+The admissions endpoint sends enquiries to `admissions@winsomemodelschools.com` by default.
 
-On Apache hosting that permits `SetEnv`, edit the deployed `.htaccess` file and add, for example:
+If the destination ever changes, the server environment variable `WMS_ADMISSIONS_EMAIL` can override the default without changing application code. On Apache hosting that permits `SetEnv`:
 
 ```apache
-SetEnv WMS_ADMISSIONS_EMAIL admissions@your-school-domain.example
+SetEnv WMS_ADMISSIONS_EMAIL another-address@example.com
 ```
-
-Replace the example with the real school mailbox. If the recipient is not configured, the form fails safely and tells visitors to call the school instead of pretending that an enquiry was submitted.
 
 ## Hosting
 
