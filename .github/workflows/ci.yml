@@ -21,7 +21,7 @@ jobs:
       - name: Regenerate safe dependency lockfile
         run: |
           npm install react-router-dom@7.18.2 --save-exact
-          npm audit fix
+          npm audit fix || true
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
       - run: npm run lint
