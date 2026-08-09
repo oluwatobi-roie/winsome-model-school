@@ -10,7 +10,7 @@ const Privacy = () => (
       <h2 className="text-2xl text-primary">How information is used</h2>
       <p>Admissions enquiries are sent to the school for follow-up. Information should only be retained for as long as reasonably necessary for the enquiry and admissions process.</p>
       <h2 className="text-2xl text-primary">Your choices</h2>
-      <p>You may contact the school by telephone instead of using the form. To ask about information you previously submitted, call <a className="underline" href="tel:+2348032319017">+234 803 231 9017</a>.</p>
+      <p>You may contact the school without using the form. For general enquiries or questions about information you previously submitted, email <a className="underline" href="mailto:info@winsomemodelschools.com">info@winsomemodelschools.com</a> or call <a className="underline" href="tel:+2348032319017">+234 803 231 9017</a>. Admissions enquiries may also be sent directly to <a className="underline" href="mailto:admissions@winsomemodelschools.com">admissions@winsomemodelschools.com</a>.</p>
       <p>Return to the <Link to="/admissions" className="underline">admissions page</Link>.</p>
     </div>
   </div>
