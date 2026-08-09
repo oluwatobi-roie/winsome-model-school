@@ -1,75 +1,61 @@
-testing write permission
+# Winsome Model Schools website
 
-# Welcome to your Lovable project
+Public website for Winsome Model Schools, built with React, TypeScript and Vite.
 
-## Project info
+## School email addresses
 
-**URL**: https://lovable.dev/projects/a48e3245-c74e-4d90-9374-a398a8dd7d25
+- General enquiries: `info@winsomemodelschools.com`
+- Admissions: `admissions@winsomemodelschools.com`
 
-## How can I edit this code?
+## Local development
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a48e3245-c74e-4d90-9374-a398a8dd7d25) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm ci
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The Vite development server is for local development only. Do not expose `npm run dev` or `npm run preview` as the production website.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Production build
 
-**Use GitHub Codespaces**
+```bash
+npm ci
+npm run lint
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Upload the **contents** of `dist/` to the site's cPanel document root. Vite copies files from `public/` into the production output, including `.htaccess` and `admissions-submit.php`.
 
-## What technologies are used for this project?
+### Admissions email configuration
 
-This project is built with:
+The admissions endpoint sends enquiries to `admissions@winsomemodelschools.com` by default.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+If the destination ever changes, the server environment variable `WMS_ADMISSIONS_EMAIL` can override the default without changing application code. On Apache hosting that permits `SetEnv`:
 
-## How can I deploy this project?
+```apache
+SetEnv WMS_ADMISSIONS_EMAIL another-address@example.com
+```
 
-Simply open [Lovable](https://lovable.dev/projects/a48e3245-c74e-4d90-9374-a398a8dd7d25) and click on Share -> Publish.
+## Hosting
 
-## Can I connect a custom domain to my Lovable project?
+The production site is static except for the small PHP admissions endpoint, so ordinary cPanel/shared hosting is sufficient. There is no need to keep a Node.js server running in production.
 
-Yes, you can!
+The included `.htaccess` file provides:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- React Router fallback routing
+- directory listing protection
+- browser security headers
+- a restrictive Content Security Policy
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Security maintenance
+
+- Keep HTTPS enabled for the entire site.
+- Never commit passwords, API keys, private student records or email credentials.
+- Review Dependabot updates promptly.
+- Do not expose the Vite development or preview server to the public internet.
+- Review approval-document images before publication for signatures, personal phone numbers or other information that should not be public.
+- GitHub Actions runs lint and build checks on pull requests and changes to `main`.
+
+## Admissions form
+
+The public form intentionally collects only the minimum information needed to start an admissions conversation. Detailed records, medical information, identity documents and similar sensitive information should be collected separately by the school when required.
