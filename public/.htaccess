@@ -1,8 +1,8 @@
 Options -Indexes
 RewriteEngine On
 
-# Set the actual admissions mailbox in cPanel/Apache before enabling the form.
-# Example only: SetEnv WMS_ADMISSIONS_EMAIL admissions@example.com
+# Admissions enquiries default to admissions@winsomemodelschools.com in the PHP handler.
+# WMS_ADMISSIONS_EMAIL may be set server-side later if the destination changes.
 
 # Keep real files (including the PHP admissions endpoint) reachable, and route
 # client-side React URLs such as /about and /admissions to index.html.
