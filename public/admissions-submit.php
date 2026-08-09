@@ -86,24 +86,24 @@ if (strlen($parentName) < 2 || !filter_var($parentEmail, FILTER_VALIDATE_EMAIL) 
     exit;
 }
 
-$recipient = getenv('WMS_ADMISSIONS_EMAIL') ?: '';
+$recipient = getenv('WMS_ADMISSIONS_EMAIL') ?: 'admissions@winsomemodelschools.com';
 if (!filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
     http_response_code(503);
-    echo json_encode(['message' => 'Online enquiries are not configured yet. Please call +234 803 231 9017.']);
+    echo json_encode(['message' => 'Online enquiries are temporarily unavailable. Please email admissions@winsomemodelschools.com or call +234 803 231 9017.']);
     exit;
 }
 
 $subject = 'Website admissions enquiry: ' . $intendedClass . ' (' . $session . ')';
 $body = "Parent/Guardian: {$parentName}\nEmail: {$parentEmail}\nPhone: {$parentPhone}\nStudent: " . ($studentName !== '' ? $studentName : 'Not provided') . "\nIntended class: {$intendedClass}\nAcademic session: {$session}\n\nMessage:\n" . ($message !== '' ? $message : 'No message provided') . "\n";
 $headers = [
-    'From: Website Enquiries <no-reply@' . preg_replace('/[^A-Za-z0-9.-]/', '', preg_replace('/:\d+$/', '', $host)) . '>',
+    'From: Website Enquiries <no-reply@winsomemodelschools.com>',
     'Reply-To: ' . str_replace(["\r", "\n"], '', $parentEmail),
     'Content-Type: text/plain; charset=UTF-8',
 ];
 
 if (!mail($recipient, $subject, $body, implode("\r\n", $headers))) {
     http_response_code(502);
-    echo json_encode(['message' => 'The enquiry could not be delivered. Please call +234 803 231 9017.']);
+    echo json_encode(['message' => 'The enquiry could not be delivered. Please email admissions@winsomemodelschools.com or call +234 803 231 9017.']);
     exit;
 }
 
