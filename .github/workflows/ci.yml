@@ -6,25 +6,18 @@ on:
   pull_request:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Update build toolchain
-        run: |
-          npm uninstall lovable-tagger
-          npm install --save-dev vite@latest @vitejs/plugin-react-swc@latest
-          npm audit fix || true
       - name: Audit all dependencies
         run: npm audit
       - run: npm run lint
@@ -35,16 +28,6 @@ jobs:
           test -f dist/admissions-submit.php
           test ! -f dist/test.txt
           php -l dist/admissions-submit.php
-      - name: Commit audited dependency files
-        if: github.event_name == 'pull_request'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Update build toolchain dependencies"
-            git push origin HEAD:${{ github.head_ref }}
-          fi
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
