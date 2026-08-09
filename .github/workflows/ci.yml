@@ -18,10 +18,23 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Regenerate safe dependency lockfile
+        run: |
+          npm install react-router-dom@7.18.2 --save-exact
+          npm audit fix
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
       - run: npm run lint
       - run: npm run build
+      - name: Upload dependency update
+        uses: actions/upload-artifact@v4
+        with:
+          name: winsome-dependency-update
+          path: |
+            package.json
+            package-lock.json
+          if-no-files-found: error
+          retention-days: 7
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
