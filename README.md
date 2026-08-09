@@ -24,7 +24,15 @@ npm run lint
 npm run build
 ```
 
-Upload the **contents** of `dist/` to the site's cPanel document root. Vite copies files from `public/` into the production output, including `.htaccess` and `admissions-submit.php`.
+Upload the **contents** of `dist/` to the site's web document root. Normal files from `public/` are copied by Vite, and the build script explicitly copies the hidden Apache `.htaccess` file into `dist/`. The production output also includes `admissions-submit.php`.
+
+Before deployment, confirm that these files exist:
+
+```text
+dist/.htaccess
+dist/admissions-submit.php
+dist/index.html
+```
 
 ### Admissions email configuration
 
@@ -38,7 +46,7 @@ SetEnv WMS_ADMISSIONS_EMAIL another-address@example.com
 
 ## Hosting
 
-The production site is static except for the small PHP admissions endpoint, so ordinary cPanel/shared hosting is sufficient. There is no need to keep a Node.js server running in production.
+The production site is static except for the small PHP admissions endpoint, so ordinary Apache/PHP shared hosting is sufficient. There is no need to keep a Node.js server running in production.
 
 The included `.htaccess` file provides:
 
@@ -54,7 +62,7 @@ The included `.htaccess` file provides:
 - Review Dependabot updates promptly.
 - Do not expose the Vite development or preview server to the public internet.
 - Review approval-document images before publication for signatures, personal phone numbers or other information that should not be public.
-- GitHub Actions runs lint and build checks on pull requests and changes to `main`.
+- GitHub Actions runs a full npm dependency audit, lint, production build, deployment-file checks and artifact creation on pull requests and changes to `main`.
 
 ## Admissions form
 

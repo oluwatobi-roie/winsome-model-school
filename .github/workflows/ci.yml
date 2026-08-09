@@ -18,12 +18,21 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Audit all dependencies
+        run: npm audit
       - run: npm run lint
       - run: npm run build
+      - name: Verify deployment package
+        run: |
+          test -f dist/.htaccess
+          test -f dist/admissions-submit.php
+          test ! -f dist/test.txt
+          php -l dist/admissions-submit.php
       - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
           name: winsome-model-school-dist
           path: dist/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 7
