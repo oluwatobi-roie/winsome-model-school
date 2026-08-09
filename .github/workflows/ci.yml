@@ -20,22 +20,29 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Regenerate safe dependency lockfile
+      - name: Update build toolchain
         run: |
-          npm install react-router-dom@7.18.2 --save-exact
+          npm uninstall lovable-tagger
+          npm install --save-dev vite@latest @vitejs/plugin-react-swc@latest
           npm audit fix || true
-      - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+      - name: Audit all dependencies
+        run: npm audit
       - run: npm run lint
       - run: npm run build
-      - name: Commit regenerated dependency files
+      - name: Verify deployment package
+        run: |
+          test -f dist/.htaccess
+          test -f dist/admissions-submit.php
+          test ! -f dist/test.txt
+          php -l dist/admissions-submit.php
+      - name: Commit audited dependency files
         if: github.event_name == 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add package.json package-lock.json
           if ! git diff --cached --quiet; then
-            git commit -m "Update audited dependencies"
+            git commit -m "Update build toolchain dependencies"
             git push origin HEAD:${{ github.head_ref }}
           fi
       - name: Upload production build
@@ -44,4 +51,5 @@ jobs:
           name: winsome-model-school-dist
           path: dist/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 7
