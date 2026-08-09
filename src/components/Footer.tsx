@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Phone, MapPin, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
 import wfsLogo from '@/assets/wms-logo.jpg';
 
 const Footer = () => {
@@ -23,6 +23,10 @@ const Footer = () => {
 
           <div className="space-y-4">
             <h2 className="text-lg font-display font-semibold">Contact</h2>
+            <a href="mailto:info@winsomemodelschools.com" className="flex items-center gap-3 text-primary-foreground/85 hover:text-primary-foreground">
+              <Mail className="h-4 w-4 shrink-0" />
+              <span>info@winsomemodelschools.com</span>
+            </a>
             <a href="tel:+2348032319017" className="flex items-center gap-3 text-primary-foreground/85 hover:text-primary-foreground"><Phone className="h-4 w-4" />+234 803 231 9017</a>
             <a href={mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 text-primary-foreground/85 hover:text-primary-foreground">
               <MapPin className="h-4 w-4 mt-1 shrink-0" />
@@ -36,6 +40,7 @@ const Footer = () => {
               <Link to="/about" className="text-primary-foreground/80 hover:text-primary-foreground">About</Link>
               <Link to="/facilities" className="text-primary-foreground/80 hover:text-primary-foreground">Facilities</Link>
               <Link to="/admissions" className="text-primary-foreground/80 hover:text-primary-foreground">Admissions</Link>
+              <a href="mailto:admissions@winsomemodelschools.com" className="text-primary-foreground/80 hover:text-primary-foreground">Admissions email</a>
               <Link to="/privacy" className="text-primary-foreground/80 hover:text-primary-foreground">Privacy</Link>
               <Link to="/terms" className="text-primary-foreground/80 hover:text-primary-foreground">Terms</Link>
               <Link to="/accessibility" className="text-primary-foreground/80 hover:text-primary-foreground">Accessibility</Link>
